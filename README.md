@@ -49,28 +49,6 @@ Pearson r(coord correlation, TQ R@10) = **-0.951**
 | RaBitQ | 1 | 0.256 | 0.418 | 96 / 64 | No |
 | Binary Hash | 1 | 0.273 | 0.473 | 96 / 64 | No |
 
-### Codebook Ablation (BigEarthNet)
-
-| Method | Prithvi R@10 | RemoteCLIP R@10 |
-|--------|:----:|:----:|
-| TQ MSE (Beta codebook) | 0.572 | 0.878 |
-| TQ Adaptive (empirical codebook) | 0.584 | 0.887 |
-| Uniform SQ (no codebook) | 0.255 | 0.399 |
-
-Beta codebook gives 2.2x recall over uniform. Adaptive codebook adds only +1%.
-
-### Scaling: EuroSAT (16K) to BigEarthNet (269K)
-
-| Model | EuroSAT | BigEarthNet | Drop |
-|-------|:----:|:----:|:----:|
-| DINOv2 | 0.943 | 0.900 | -0.043 |
-| RemoteCLIP | 0.911 | 0.878 | -0.033 |
-| GeoRSCLIP | 0.882 | 0.830 | -0.052 |
-| SSL4EO | 0.834 | 0.770 | -0.064 |
-| MAE-base | 0.859 | 0.737 | -0.122 |
-| Prithvi | 0.779 | 0.572 | -0.207 |
-
-Isotropic models degrade 3-6%. Anisotropic models degrade 12-21%.
 
 ## Models
 
@@ -146,10 +124,6 @@ python extract_additional.py --model all          # EuroSAT
 python extract_additional_ben.py --model all       # BigEarthNet (~2hr/model)
 ```
 
-**Phase 2 — Validate Beta assumption:**
-```bash
-python validate.py --model all --dataset eurosat
-```
 
 **Phase 3 — Benchmark:**
 ```bash
@@ -231,18 +205,3 @@ results/
   paper_results.csv                     # CSV export for custom analysis
 ```
 
-## References
-
-- **TurboQuant**: Guo et al., "TurboQuant: Online Vector Quantization with Near-Optimal Distortion", arXiv:2501.06036, 2024
-- **RaBitQ**: Gao & Long, "RaBitQ: Quantizing High-Dimensional Vectors with a Theoretical Error Bound", SIGMOD 2024
-- **Product Quantization**: Jegou et al., "Product Quantization for Nearest Neighbor Search", IEEE TPAMI 2011
-- **SimHash**: Charikar, "Similarity Estimation Techniques from Rounding Algorithms", STOC 2002
-- **FlyHash**: Dasgupta et al., "A Neural Algorithm for a Fundamental Computing Problem", Science 2017
-- **Prithvi**: Jakubik et al., "Foundation Models for Generalist Geospatial Artificial Intelligence", 2023
-- **RemoteCLIP**: Liu et al., "RemoteCLIP: A Vision Language Foundation Model for Remote Sensing", IEEE TGRS 2024
-- **DINOv2**: Oquab et al., "DINOv2: Learning Robust Visual Features without Supervision", TMLR 2024
-- **SSL4EO**: Wang et al., "SSL4EO-S12: A Large-Scale Multi-Modal Dataset for Self-Supervised Learning in EO", IEEE GRSM 2023
-- **MAE**: He et al., "Masked Autoencoders Are Scalable Vision Learners", CVPR 2022
-- **EuroSAT**: Helber et al., "EuroSAT: A Novel Dataset for Land Use Classification", IEEE JSTARS 2019
-- **BigEarthNet**: Sumbul et al., "BigEarthNet: A Large-Scale Benchmark Archive", IEEE IGARSS 2019
-- **Uniformity**: Wang & Isola, "Understanding Contrastive Representation Learning through Alignment and Uniformity", ICML 2020
