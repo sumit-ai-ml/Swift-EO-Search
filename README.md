@@ -1,4 +1,4 @@
-# TurboQuant RS
+# Swift EO Search
 
 Training-free embedding compression for remote sensing retrieval. Benchmarks TurboQuant against 8 other quantization methods across 6 foundation models and 2 datasets.
 
