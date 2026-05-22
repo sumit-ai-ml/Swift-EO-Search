@@ -2,7 +2,7 @@
 
 Training-free embedding compression for remote sensing retrieval. Benchmarks TurboQuant against 8 other quantization methods across 6 foundation models and 2 datasets.
 
-**Main finding:** TurboQuant's retrieval recall depends on the coordinate independence of the embedding distribution (Pearson r = -0.951). Contrastive and self-distillation models compress well. MAE models don't.
+
 
 ----------------------------------------------------------------------
 
