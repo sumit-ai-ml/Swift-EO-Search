@@ -4,6 +4,8 @@ Training-free embedding compression for remote sensing retrieval. Benchmarks Tur
 
 **Main finding:** TurboQuant's retrieval recall depends on the coordinate independence of the embedding distribution (Pearson r = -0.951). Contrastive and self-distillation models compress well. MAE models don't.
 
+----------------------------------------------------------------------
+
 ## Results
 
 R@10 / Kendall's τ at 4 bits per dimension across 6 foundation models and 2 datasets. Each cell is R@10 / τ; **Tr.** marks methods that require training data; **TQ MSE** is our headline training-free method.
@@ -36,6 +38,7 @@ R@10 / Kendall's τ at 4 bits per dimension across 6 foundation models and 2 dat
 | FlyHash | .432 / .440 | .409 / .419 | .340 / .384 | .354 / .433 | .152 / .275 | .207 / .382 | no |
 | RandProj | .595 / .562 | .619 / .568 | .505 / .522 | .336 / .468 | .251 / .348 | .073 / .250 | no |
 
+----------------------------------------------------------------------
 
 ## Models
 
@@ -56,6 +59,8 @@ R@10 / Kendall's τ at 4 bits per dimension across 6 foundation models and 2 dat
 - **EuroSAT**: 16,200 Sentinel-2 patches, 10 land-use classes, 64x64 pixels
 - **BigEarthNet-S2**: 269,695 Sentinel-2 patches, 43 multi-label classes, 120x120 pixels
 
+----------------------------------------------------------------------
+
 ## Setup
 
 ```bash
@@ -64,6 +69,8 @@ bash setup.sh
 ```
 
 Requires Python 3.10+, PyTorch 2.0+ with CUDA. Tested on NVIDIA RTX A3000 (6GB).
+
+----------------------------------------------------------------------
 
 ## Reproducing Results
 
@@ -117,21 +124,7 @@ python benchmark.py --method product_quant --bits 4 --seeds 42
 python benchmark.py --method rabitq
 ```
 
-## Key Findings
-
-1. **Coordinate independence predicts TQ recall** with r = -0.951 across 6 models. This is a stronger predictor than KS D statistic (r = -0.507) or training paradigm labels.
-
-2. **TurboQuant MSE is the best training-free method** across all 6 models and both datasets, 9-23% ahead of SimHash (runner-up).
-
-3. **The Beta codebook is essential.** Uniform quantization with the same rotation gives 2.2x worse recall. But a data-adaptive codebook gives only +1% over the fixed Beta codebook.
-
-4. **DINOv2 (self-distillation) compresses best**, even better than CLIP models. Self-distillation produces the most isotropic embeddings.
-
-5. **The model choice matters as much as the quantizer choice.** Switching from Prithvi to DINOv2 improves TQ R@10 from 0.572 to 0.900 on BigEarthNet. That's a bigger gain than switching from TQ to PQ.
-
-6. **QJL correction hurts.** TurboQuant's "Prod" variant degrades recall for cosine retrieval.
-
-7. **Uniform SQ is insensitive to bits** at high d. At d=768, rotated coordinates live in +/-0.036. A [-1,1] grid wastes 96% of bins.
+----------------------------------------------------------------------
 
 ## Project Structure
 
@@ -151,6 +144,7 @@ setup.sh                    # Install dependencies
 run.sh                      # Quick pipeline (EuroSAT only)
 paper.md                    # Full paper draft
 ```
+----------------------------------------------------------------------
 
 ## Outputs
 
@@ -172,4 +166,18 @@ results/
   table_6model.tex                      # LaTeX tables for paper
   paper_results.csv                     # CSV export for custom analysis
 ```
+----------------------------------------------------------------------
+## Citation 
+
+Please cite our paper if you use this code ot it was helpful for you:
+
+```
+@inproceedings{pandey2026leaneo,
+  title={Lean EO Search: Investigating the Impact of Quantization on Earth Observation Embedding Retrieval},
+  author={Pandey, Sumit and Kariryaa, Ankit},
+  booktitle={Scandinavian Conference on Artificial Intelligence},
+  year={2026},
+  note={Accepted at SCAI 2026, Denmark}
+```
+
 
