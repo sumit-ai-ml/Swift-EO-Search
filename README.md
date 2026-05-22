@@ -8,57 +8,33 @@ Training-free embedding compression for remote sensing retrieval. Benchmarks Tur
 
 R@10 / Kendall's τ at 4 bits per dimension across 6 foundation models and 2 datasets. Each cell is R@10 / τ; **Tr.** marks methods that require training data; **TQ MSE** is our headline training-free method.
 
-```latex
-\begin{table}[t]
-\centering
-\scriptsize
-\caption{EuroSAT (16K vectors). R@10\,/\,Kendall's $\tau$ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).}
-\label{tab:eurosat}
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lccccccl}
-\hline
-\textbf{Method} & \textbf{DINOv2} & \textbf{RemoteCLIP} & \textbf{GeoRSCLIP} & \textbf{SSL4EO} & \textbf{MAE-base} & \textbf{Prithvi} & \textbf{Tr.} \\
-\hline
-PQ            & \textbf{.960\,/\,.975} & \textbf{.961\,/\,.970} & \textbf{.965\,/\,.970} & \textbf{.968\,/\,.983} & \textbf{.953\,/\,.979} & \textbf{.961\,/\,.987} & yes \\
-TQ Adaptive   & .942\,/\,.960 & .912\,/\,.940 & .880\,/\,.913 & .842\,/\,.913 & .863\,/\,.968 & .782\,/\,.926 & yes \\
-\hline
-\textbf{TQ MSE} & \textbf{.943\,/\,.959} & \textbf{.911\,/\,.938} & \textbf{.882\,/\,.910} & \textbf{.834\,/\,.906} & \textbf{.859\,/\,.966} & \textbf{.779\,/\,.923} & \textbf{no} \\
-SimHash Multi & .792\,/\,.824 & .751\,/\,.779 & .708\,/\,.745 & .743\,/\,.803 & .744\,/\,.909 & .702\,/\,.867 & no \\
-Uniform SQ    & .660\,/\,.719 & .549\,/\,.623 & .499\,/\,.575 & .544\,/\,.649 & .558\,/\,.829 & .502\,/\,.761 & no \\
-RaBitQ        & .659\,/\,.722 & .567\,/\,.654 & .501\,/\,.582 & .544\,/\,.657 & .558\,/\,.833 & .502\,/\,.770 & no \\
-Binary Hash   & .654\,/\,.705 & .607\,/\,.661 & .576\,/\,.626 & .609\,/\,.704 & .179\,/\,.227 & .451\,/\,.601 & no \\
-FlyHash       & .592\,/\,.653 & .545\,/\,.605 & .497\,/\,.568 & .468\,/\,.599 & .209\,/\,.274 & .468\,/\,.725 & no \\
-RandProj      & .724\,/\,.749 & .718\,/\,.744 & .671\,/\,.718 & .518\,/\,.718 & .562\,/\,.832 & .394\,/\,.729 & no \\
-\hline
-\end{tabular}
-\end{table}
-```
+**Table 1. EuroSAT (16K vectors).** R@10 / Kendall's τ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).
 
-```latex
-\begin{table}[t]
-\centering
-\scriptsize
-\caption{BigEarthNet (269K vectors). R@10\,/\,Kendall's $\tau$ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).}
-\label{tab:bigearthnet}
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lccccccl}
-\hline
-\textbf{Method} & \textbf{DINOv2} & \textbf{RemoteCLIP} & \textbf{GeoRSCLIP} & \textbf{SSL4EO} & \textbf{MAE-base} & \textbf{Prithvi} & \textbf{Tr.} \\
-\hline
-PQ            & \textbf{.947\,/\,.945} & \textbf{.944\,/\,.936} & \textbf{.950\,/\,.944} & \textbf{.955\,/\,.959} & \textbf{.935\,/\,.930} & \textbf{.925\,/\,.943} & yes \\
-TQ Adaptive   & .898\,/\,.884 & .887\,/\,.865 & .834\,/\,.814 & .777\,/\,.804 & .744\,/\,.751 & .584\,/\,.651 & yes \\
-\hline
-\textbf{TQ MSE} & \textbf{.900\,/\,.884} & \textbf{.878\,/\,.860} & \textbf{.830\,/\,.811} & \textbf{.770\,/\,.795} & \textbf{.737\,/\,.744} & \textbf{.572\,/\,.641} & \textbf{no} \\
-SimHash Multi & .688\,/\,.641 & .648\,/\,.595 & .601\,/\,.573 & .651\,/\,.650 & .573\,/\,.582 & .481\,/\,.575 & no \\
-Uniform SQ    & .479\,/\,.477 & .399\,/\,.401 & .349\,/\,.385 & .422\,/\,.468 & .338\,/\,.402 & .255\,/\,.399 & no \\
-RaBitQ        & .479\,/\,.482 & .418\,/\,.429 & .348\,/\,.391 & .422\,/\,.476 & .337\,/\,.410 & .256\,/\,.412 & no \\
-Binary Hash   & .483\,/\,.481 & .473\,/\,.461 & .447\,/\,.457 & .468\,/\,.503 & .128\,/\,.253 & .273\,/\,.381 & no \\
-FlyHash       & .432\,/\,.440 & .409\,/\,.419 & .340\,/\,.384 & .354\,/\,.433 & .152\,/\,.275 & .207\,/\,.382 & no \\
-RandProj      & .595\,/\,.562 & .619\,/\,.568 & .505\,/\,.522 & .336\,/\,.468 & .251\,/\,.348 & .073\,/\,.250 & no \\
-\hline
-\end{tabular}
-\end{table}
-```
+| Method | DINOv2 | RemoteCLIP | GeoRSCLIP | SSL4EO | MAE-base | Prithvi | Tr. |
+|--------|:------:|:----------:|:---------:|:------:|:--------:|:-------:|:---:|
+| PQ | **.960 / .975** | **.961 / .970** | **.965 / .970** | **.968 / .983** | **.953 / .979** | **.961 / .987** | yes |
+| TQ Adaptive | .942 / .960 | .912 / .940 | .880 / .913 | .842 / .913 | .863 / .968 | .782 / .926 | yes |
+| **TQ MSE** | **.943 / .959** | **.911 / .938** | **.882 / .910** | **.834 / .906** | **.859 / .966** | **.779 / .923** | **no** |
+| SimHash Multi | .792 / .824 | .751 / .779 | .708 / .745 | .743 / .803 | .744 / .909 | .702 / .867 | no |
+| Uniform SQ | .660 / .719 | .549 / .623 | .499 / .575 | .544 / .649 | .558 / .829 | .502 / .761 | no |
+| RaBitQ | .659 / .722 | .567 / .654 | .501 / .582 | .544 / .657 | .558 / .833 | .502 / .770 | no |
+| Binary Hash | .654 / .705 | .607 / .661 | .576 / .626 | .609 / .704 | .179 / .227 | .451 / .601 | no |
+| FlyHash | .592 / .653 | .545 / .605 | .497 / .568 | .468 / .599 | .209 / .274 | .468 / .725 | no |
+| RandProj | .724 / .749 | .718 / .744 | .671 / .718 | .518 / .718 | .562 / .832 | .394 / .729 | no |
+
+**Table 2. BigEarthNet (269K vectors).** R@10 / Kendall's τ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).
+
+| Method | DINOv2 | RemoteCLIP | GeoRSCLIP | SSL4EO | MAE-base | Prithvi | Tr. |
+|--------|:------:|:----------:|:---------:|:------:|:--------:|:-------:|:---:|
+| PQ | **.947 / .945** | **.944 / .936** | **.950 / .944** | **.955 / .959** | **.935 / .930** | **.925 / .943** | yes |
+| TQ Adaptive | .898 / .884 | .887 / .865 | .834 / .814 | .777 / .804 | .744 / .751 | .584 / .651 | yes |
+| **TQ MSE** | **.900 / .884** | **.878 / .860** | **.830 / .811** | **.770 / .795** | **.737 / .744** | **.572 / .641** | **no** |
+| SimHash Multi | .688 / .641 | .648 / .595 | .601 / .573 | .651 / .650 | .573 / .582 | .481 / .575 | no |
+| Uniform SQ | .479 / .477 | .399 / .401 | .349 / .385 | .422 / .468 | .338 / .402 | .255 / .399 | no |
+| RaBitQ | .479 / .482 | .418 / .429 | .348 / .391 | .422 / .476 | .337 / .410 | .256 / .412 | no |
+| Binary Hash | .483 / .481 | .473 / .461 | .447 / .457 | .468 / .503 | .128 / .253 | .273 / .381 | no |
+| FlyHash | .432 / .440 | .409 / .419 | .340 / .384 | .354 / .433 | .152 / .275 | .207 / .382 | no |
+| RandProj | .595 / .562 | .619 / .568 | .505 / .522 | .336 / .468 | .251 / .348 | .073 / .250 | no |
 
 
 ## Models
