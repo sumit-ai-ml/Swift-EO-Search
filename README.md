@@ -6,48 +6,59 @@ Training-free embedding compression for remote sensing retrieval. Benchmarks Tur
 
 ## Results
 
-### 6-Model Isotropy Test
+R@10 / Kendall's τ at 4 bits per dimension across 6 foundation models and 2 datasets. Each cell is R@10 / τ; **Tr.** marks methods that require training data; **TQ MSE** is our headline training-free method.
 
-**EuroSAT (16K vectors), TurboQuant MSE 4-bit R@10:**
+```latex
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{EuroSAT (16K vectors). R@10\,/\,Kendall's $\tau$ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).}
+\label{tab:eurosat}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccccl}
+\hline
+\textbf{Method} & \textbf{DINOv2} & \textbf{RemoteCLIP} & \textbf{GeoRSCLIP} & \textbf{SSL4EO} & \textbf{MAE-base} & \textbf{Prithvi} & \textbf{Tr.} \\
+\hline
+PQ            & \textbf{.960\,/\,.975} & \textbf{.961\,/\,.970} & \textbf{.965\,/\,.970} & \textbf{.968\,/\,.983} & \textbf{.953\,/\,.979} & \textbf{.961\,/\,.987} & yes \\
+TQ Adaptive   & .942\,/\,.960 & .912\,/\,.940 & .880\,/\,.913 & .842\,/\,.913 & .863\,/\,.968 & .782\,/\,.926 & yes \\
+\hline
+\textbf{TQ MSE} & \textbf{.943\,/\,.959} & \textbf{.911\,/\,.938} & \textbf{.882\,/\,.910} & \textbf{.834\,/\,.906} & \textbf{.859\,/\,.966} & \textbf{.779\,/\,.923} & \textbf{no} \\
+SimHash Multi & .792\,/\,.824 & .751\,/\,.779 & .708\,/\,.745 & .743\,/\,.803 & .744\,/\,.909 & .702\,/\,.867 & no \\
+Uniform SQ    & .660\,/\,.719 & .549\,/\,.623 & .499\,/\,.575 & .544\,/\,.649 & .558\,/\,.829 & .502\,/\,.761 & no \\
+RaBitQ        & .659\,/\,.722 & .567\,/\,.654 & .501\,/\,.582 & .544\,/\,.657 & .558\,/\,.833 & .502\,/\,.770 & no \\
+Binary Hash   & .654\,/\,.705 & .607\,/\,.661 & .576\,/\,.626 & .609\,/\,.704 & .179\,/\,.227 & .451\,/\,.601 & no \\
+FlyHash       & .592\,/\,.653 & .545\,/\,.605 & .497\,/\,.568 & .468\,/\,.599 & .209\,/\,.274 & .468\,/\,.725 & no \\
+RandProj      & .724\,/\,.749 & .718\,/\,.744 & .671\,/\,.718 & .518\,/\,.718 & .562\,/\,.832 & .394\,/\,.729 & no \\
+\hline
+\end{tabular}
+\end{table}
+```
 
-| Model | Training | Coord Corr | TQ MSE | PQ | Binary Hash | Gap Closed |
-|-------|----------|:----:|:----:|:----:|:----:|:----:|
-| DINOv2 | Self-distillation | 0.132 | **0.943** | 0.960 | 0.654 | 95% |
-| RemoteCLIP | Contrastive (CLIP) | 0.205 | **0.911** | 0.961 | 0.607 | 86% |
-| GeoRSCLIP | Contrastive (CLIP) | 0.190 | **0.882** | 0.965 | 0.576 | 79% |
-| MAE-base | MAE (ImageNet) | 0.510 | 0.859 | 0.953 | 0.179 | 88% |
-| SSL4EO | MAE (RS) | 0.293 | 0.834 | 0.968 | 0.609 | 62% |
-| Prithvi | MAE (RS) | 0.629 | 0.779 | 0.961 | 0.451 | 64% |
-
-Pearson r(coord correlation, TQ R@10) = **-0.851**
-
-**BigEarthNet (269K vectors), TurboQuant MSE 4-bit R@10:**
-
-| Model | Training | Coord Corr | TQ MSE | PQ | Binary Hash | Gap Closed |
-|-------|----------|:----:|:----:|:----:|:----:|:----:|
-| DINOv2 | Self-distillation | 0.253 | **0.900** | 0.947 | 0.483 | 90% |
-| RemoteCLIP | Contrastive (CLIP) | 0.215 | **0.878** | 0.944 | 0.473 | 86% |
-| GeoRSCLIP | Contrastive (CLIP) | 0.247 | **0.830** | 0.950 | 0.447 | 76% |
-| SSL4EO | MAE (RS) | 0.345 | 0.770 | 0.955 | 0.468 | 62% |
-| MAE-base | MAE (ImageNet) | 0.521 | 0.737 | 0.935 | 0.128 | 76% |
-| Prithvi | MAE (RS) | 0.663 | 0.572 | 0.925 | 0.273 | 46% |
-
-Pearson r(coord correlation, TQ R@10) = **-0.951**
-
-### All Methods Comparison (BigEarthNet, Prithvi + RemoteCLIP)
-
-| Method | Bits | Prithvi R@10 | RemoteCLIP R@10 | B/vec | Training? |
-|--------|:----:|:----:|:----:|:----:|:-:|
-| FP32 Exact | - | 1.000 | 1.000 | 3072 / 2048 | - |
-| Product Quant | 4 | 0.925 | 0.944 | 384 / 256 | Yes |
-| **TurboQuant MSE** | **4** | **0.572** | **0.878** | **388 / 260** | **No** |
-| TurboQuant Adaptive | 4 | 0.584 | 0.887 | 388 / 260 | Yes |
-| SimHash Multi-bit | 4 | 0.481 | 0.648 | 384 / 256 | No |
-| RandProj Quant | 4 | 0.073 | 0.619 | 384 / 256 | No |
-| Uniform SQ | 4 | 0.255 | 0.399 | 388 / 260 | No |
-| FlyHash | 4 | 0.207 | 0.409 | 384 / 256 | No |
-| RaBitQ | 1 | 0.256 | 0.418 | 96 / 64 | No |
-| Binary Hash | 1 | 0.273 | 0.473 | 96 / 64 | No |
+```latex
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{BigEarthNet (269K vectors). R@10\,/\,Kendall's $\tau$ at 4 bits per dimension (1 bit for RaBitQ and Binary Hash).}
+\label{tab:bigearthnet}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccccl}
+\hline
+\textbf{Method} & \textbf{DINOv2} & \textbf{RemoteCLIP} & \textbf{GeoRSCLIP} & \textbf{SSL4EO} & \textbf{MAE-base} & \textbf{Prithvi} & \textbf{Tr.} \\
+\hline
+PQ            & \textbf{.947\,/\,.945} & \textbf{.944\,/\,.936} & \textbf{.950\,/\,.944} & \textbf{.955\,/\,.959} & \textbf{.935\,/\,.930} & \textbf{.925\,/\,.943} & yes \\
+TQ Adaptive   & .898\,/\,.884 & .887\,/\,.865 & .834\,/\,.814 & .777\,/\,.804 & .744\,/\,.751 & .584\,/\,.651 & yes \\
+\hline
+\textbf{TQ MSE} & \textbf{.900\,/\,.884} & \textbf{.878\,/\,.860} & \textbf{.830\,/\,.811} & \textbf{.770\,/\,.795} & \textbf{.737\,/\,.744} & \textbf{.572\,/\,.641} & \textbf{no} \\
+SimHash Multi & .688\,/\,.641 & .648\,/\,.595 & .601\,/\,.573 & .651\,/\,.650 & .573\,/\,.582 & .481\,/\,.575 & no \\
+Uniform SQ    & .479\,/\,.477 & .399\,/\,.401 & .349\,/\,.385 & .422\,/\,.468 & .338\,/\,.402 & .255\,/\,.399 & no \\
+RaBitQ        & .479\,/\,.482 & .418\,/\,.429 & .348\,/\,.391 & .422\,/\,.476 & .337\,/\,.410 & .256\,/\,.412 & no \\
+Binary Hash   & .483\,/\,.481 & .473\,/\,.461 & .447\,/\,.457 & .468\,/\,.503 & .128\,/\,.253 & .273\,/\,.381 & no \\
+FlyHash       & .432\,/\,.440 & .409\,/\,.419 & .340\,/\,.384 & .354\,/\,.433 & .152\,/\,.275 & .207\,/\,.382 & no \\
+RandProj      & .595\,/\,.562 & .619\,/\,.568 & .505\,/\,.522 & .336\,/\,.468 & .251\,/\,.348 & .073\,/\,.250 & no \\
+\hline
+\end{tabular}
+\end{table}
+```
 
 
 ## Models
