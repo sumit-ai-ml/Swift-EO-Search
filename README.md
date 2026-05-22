@@ -69,25 +69,6 @@ Pearson r(coord correlation, TQ R@10) = **-0.951**
 - **EuroSAT**: 16,200 Sentinel-2 patches, 10 land-use classes, 64x64 pixels
 - **BigEarthNet-S2**: 269,695 Sentinel-2 patches, 43 multi-label classes, 120x120 pixels
 
-## Methods
-
-### Training-free
-| Method | Description | Storage |
-|--------|-------------|---------|
-| **TurboQuant MSE** | Random rotation + Beta(d/2,d/2) optimal codebook | b*d/8 + 4 bytes |
-| RaBitQ | Random rotation + binarization + Hamming | d/8 bytes |
-| Binary Hash | sign(x) + Hamming distance | d/8 bytes |
-| SimHash Multi-bit | k random hyperplanes, 1 bit each | k/8 bytes |
-| Uniform SQ | Random rotation + uniform grid [-1,1] | b*d/8 + 4 bytes |
-| FlyHash | Sparse random expansion + winner-take-all | k/8 bytes |
-| RandProj Quant | Random Gaussian projection + 8-bit quantization | m bytes |
-
-### Requires training
-| Method | Description | Storage |
-|--------|-------------|---------|
-| **Product Quantization** | FAISS PQ with learned codebooks | m*nbits/8 bytes |
-| TurboQuant Adaptive | Rotation + empirical Lloyd-Max codebook | b*d/8 + 4 bytes |
-
 ## Setup
 
 ```bash
