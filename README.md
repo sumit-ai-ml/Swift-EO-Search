@@ -1,8 +1,6 @@
 # Swift EO Search
 
-Training-free embedding compression for remote sensing retrieval. Benchmarks TurboQuant against 8 other quantization methods across 6 foundation models and 2 datasets.
-
-
+Investigating the impact of quantization on Earth Observation embedding retrieval. Benchmarks nine methods, including product quantization, and TurboQuant, across six foundation models and two EO datasets (EuroSAT, BigEarthNet).
 
 ----------------------------------------------------------------------
 
