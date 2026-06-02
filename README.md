@@ -171,7 +171,7 @@ Please cite our paper if you use this code ot it was helpful for you:
 
 ```
 @inproceedings{pandey2026leaneo,
-  title={Lean EO Search: Investigating the Impact of Quantization on Earth Observation Embedding Retrieval},
+  title={Swift EO Search: Investigating the Impact of Quantization on Earth Observation Embedding Retrieval},
   author={Pandey, Sumit and Kariryaa, Ankit},
   booktitle={Scandinavian Conference on Artificial Intelligence},
   year={2026},
